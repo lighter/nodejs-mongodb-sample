@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <title>NodeJS &amp; Mongodb CRUD</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="generator" content="Clarify http://www.clarify-it.com">
+  <meta content="" name="description">
+  <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0" />
+  
+  <link href="css/basic.css" media="screen" rel="stylesheet" type="text/css" /><!-- main CSS for structure and style-->
+  <link href="css/prettyPhoto.css" media="screen" rel="stylesheet" type="text/css" charset="utf-8" />
+  <script src="js/jquery-1.6.1.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+      $("a[rel^='prettyPhoto']").prettyPhoto({
+      	theme: 'pp_default',
+        show_title: false,
+        social_tools:false
+      }); 
+    }); 	
+  </script>
+</head>
+
+<body>
+  <div id="wrapper">
+  	<div id="header-row">
+  		<div id="header-left">
+  		  <div id="header-left-content">
+          <div class="align-bottom">
+            <h1 class="clarify-article-title">NodeJS &amp; Mongodb CRUD</h1>
+          </div>
+        </div>
+  		</div>
+  		<div id="header-right">
+  			<span class="align-image-bottom"></span>
+		  	  		</div>
+  	</div>
+    <div id="clarify-article-content">
+            <div class="clarify-article-description">
+        <p>簡單的記錄一下 &nbsp;NodeJS &amp; Mongodb的實做過程,關於安裝nodejs跟mongodb的過程就略過了!</p>
+      </div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>      <div class="clarify-steps-container">					<div id="clarify-step-1" class="clarify-step-container">						<h2 class="clarify-step-title">Step 1. 安裝express</h2>						<div class="clarify-step-instructions"><pre><code>$ npm install <span style="color: rgb(83,85,2)">-</span>g express</code></pre></div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-2" class="clarify-step-container">						<h2 class="clarify-step-title">Step 2. 安裝express generator</h2>						<div class="clarify-step-instructions"><p>express 4.0版本中將命令工具抽離了，所以會需要安裝<span style="color: rgb(187,0,0)"><code>express-generator</code></span> </p>
+<pre><code>$ npm install <span style="color: rgb(83,85,2)">-</span>g express<span style="color: rgb(83,85,2)">-</span>generator</code></pre>
+<p>查詢 <span style="color: rgb(187,0,0)"><code>express</code></span>的版本</p>
+<pre><code>$ npm view express version</code></pre></div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-3" class="clarify-step-container">						<h2 class="clarify-step-title">Step 3. create project</h2>						<div class="clarify-step-instructions"><pre><code>$ express nodecrud</code></pre></div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-4" class="clarify-step-container">						<h2 class="clarify-step-title">Step 4. edit package.json</h2>						<div class="clarify-step-instructions"><p>Add <span style="color: rgb(187,0,0)"><code>mongodb</code></span>, <span style="color: rgb(187,0,0)"><code>monk</code></span></p>
+<pre><code>{
+ &nbsp;&quot;name&quot;: &quot;nodecrud&quot;,
+ &nbsp;&quot;version&quot;: &quot;0.0.0&quot;,
+ &nbsp;&quot;private&quot;: true,
+ &nbsp;&quot;scripts&quot;: {
+ &nbsp; &nbsp;&quot;start&quot;: &quot;node ./bin/www&quot;
+ &nbsp;},
+ &nbsp;&quot;dependencies&quot;: {
+ &nbsp; &nbsp;&quot;express&quot;: &quot;~4.9.0&quot;,
+ &nbsp; &nbsp;&quot;body-parser&quot;: &quot;~1.8.1&quot;,
+ &nbsp; &nbsp;&quot;cookie-parser&quot;: &quot;~1.3.3&quot;,
+ &nbsp; &nbsp;&quot;morgan&quot;: &quot;~1.3.0&quot;,
+ &nbsp; &nbsp;&quot;serve-favicon&quot;: &quot;~2.1.3&quot;,
+ &nbsp; &nbsp;&quot;debug&quot;: &quot;~2.0.0&quot;,
+ &nbsp; &nbsp;&quot;jade&quot;: &quot;~1.6.0&quot;,
+ &nbsp; &nbsp;&quot;mongodb&quot;: &quot;*&quot;,
+ &nbsp; &nbsp;&quot;monk&quot;: &quot;*&quot;
+ &nbsp;}
+}</code></pre></div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-5" class="clarify-step-container">						<h2 class="clarify-step-title">Step 5. install</h2>						<div class="clarify-step-instructions"><pre><code>$ npm install</code></pre></div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-6" class="clarify-step-container">						<h2 class="clarify-step-title">Step 6. prepare database</h2>						<div class="clarify-step-instructions"><p>create data folder on your poject folder.</p>
+<pre><code>$ mkdir data</code></pre></div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-7" class="clarify-step-container">						<h2 class="clarify-step-title">Step 7. start server</h2>						<div class="clarify-step-instructions"><pre><code>$ npm start</code></pre>
+<p>open your browser, and input this url <span style="color: rgb(187,0,0)"><code>http://localhost:3000</code></span> </p></div>
+												<div class="clarify-step-image-wrapper">
+							<div class="clarify-step-image-container">
+								<img src="./images/docs/nodejs---mongodb-crud/step-7-start-server.png" width="702" height="348" class="clarify-step-image" alt="" />
+								
+							</div>
+						</div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-8" class="clarify-step-container">						<h2 class="clarify-step-title">Step 8. create hello world</h2>						<div class="clarify-step-instructions"><p>open <span style="color: rgb(187,0,0)"><code>router/index.js</code></span> </p>
+<p>add this route:</p>
+<pre><code>router.get('/helloworld', function(req, res) {
+ &nbsp;res.render('helloworld', {title: 'Hello World'});
+});</code></pre>
+<p>and new a <span style="color: rgb(187,0,0)"><code>helloworld.jade</code></span> on the views folder, and write this example code:</p>
+<pre><code>extend layout
+block content
+ &nbsp;h1= title
+ &nbsp;p welcome to #{title}</code></pre>
+<p>reopen browswer, open <span style="color: rgb(187,0,0)"><code>http://localhost:3000/helloworld</code></span> </p></div>
+												<div class="clarify-step-image-wrapper">
+							<div class="clarify-step-image-container">
+								<img src="./images/docs/nodejs---mongodb-crud/step-8-create-hello-world.png" width="702" height="246" class="clarify-step-image" alt="" />
+								
+							</div>
+						</div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-9" class="clarify-step-container">						<h2 class="clarify-step-title">Step 9. run mongod on mongo</h2>						<div class="clarify-step-instructions"><p>This is will start mongod, you must run this command, and you can operate mongo.</p>
+<pre><code>$ mongod --dbpath YOUR_FOLDER_PATH/nodecrud/data</code></pre>
+<p>and open a new command window, enter this command</p>
+<pre><code>$ mongo</code></pre></div>
+												<div class="clarify-step-image-wrapper">
+							<div class="clarify-step-image-container">
+								<img src="./images/docs/nodejs---mongodb-crud/step-9-run-mongod-on-mongo.png" width="556" height="166" class="clarify-step-image" alt="" />
+								
+							</div>
+						</div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-10" class="clarify-step-container">						<h2 class="clarify-step-title">Step 10. create database</h2>						<div class="clarify-step-instructions"><p>on the mongo console enter this command:</p>
+<pre><code>$ use nodecrud</code></pre></div>
+												<div class="clarify-step-image-wrapper">
+							<div class="clarify-step-image-container">
+								<img src="./images/docs/nodejs---mongodb-crud/step-10-create-database.png" width="558" height="201" class="clarify-step-image" alt="" />
+								
+							</div>
+						</div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-11" class="clarify-step-container">						<h2 class="clarify-step-title">Step 11. create data</h2>						<div class="clarify-step-instructions"><p>sample:</p>
+<pre><code><span style="color: rgb(83,85,2)">{</span>
+ &nbsp; &nbsp;<span style="color: rgb(16,121,2)">&quot;_id&quot;</span> <span style="color: rgb(83,85,2)">:</span> <span style="color: rgb(11,84,83)">1234</span><span style="color: rgb(83,85,2)">,</span>
+ &nbsp; &nbsp;<span style="color: rgb(16,121,2)">&quot;username&quot;</span> <span style="color: rgb(83,85,2)">:</span> <span style="color: rgb(16,121,2)">&quot;cwbuecheler&quot;</span><span style="color: rgb(83,85,2)">,</span>
+ &nbsp; &nbsp;<span style="color: rgb(16,121,2)">&quot;email&quot;</span> <span style="color: rgb(83,85,2)">:</span> <span style="color: rgb(16,121,2)">&quot;cwbuecheler@nospam.com&quot;</span><span style="color: rgb(83,85,2)">
+}</span></code></pre>
+<p>mongo command:</p>
+<pre><code>db<span style="color: rgb(83,85,2)">.</span>usercollection<span style="color: rgb(83,85,2)">.</span>insert<span style="color: rgb(83,85,2)">({</span> <span style="color: rgb(16,121,2)">&quot;username&quot;</span> <span style="color: rgb(83,85,2)">:</span> <span style="color: rgb(16,121,2)">&quot;testuser1&quot;</span><span style="color: rgb(83,85,2)">,</span> <span style="color: rgb(16,121,2)">&quot;email&quot;</span> <span style="color: rgb(83,85,2)">:</span> <span style="color: rgb(16,121,2)">&quot;testuser1@testdomain.com&quot;</span> <span style="color: rgb(83,85,2)">})</span></code></pre>
+<p><span style="color: rgb(83,85,2)">find command</span></p>
+<pre><code>db<span style="color: rgb(83,85,2)">.</span>usercollection<span style="color: rgb(83,85,2)">.</span>find<span style="color: rgb(83,85,2)">().</span>pretty<span style="color: rgb(83,85,2)">()</span></code></pre>
+<p>&nbsp;</p>
+<p><span style="color: rgb(83,85,2)">Insert more data</span></p>
+<pre><code>newstuff <span style="color: rgb(83,85,2)">=</span> <span style="color: rgb(83,85,2)">[{</span> <span style="color: rgb(16,121,2)">&quot;username&quot;</span> <span style="color: rgb(83,85,2)">:</span> <span style="color: rgb(16,121,2)">&quot;testuser2&quot;</span><span style="color: rgb(83,85,2)">,</span> <span style="color: rgb(16,121,2)">&quot;email&quot;</span> <span style="color: rgb(83,85,2)">:</span> <span style="color: rgb(16,121,2)">&quot;testuser2@testdomain.com&quot;</span> <span style="color: rgb(83,85,2)">},</span> 
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: rgb(83,85,2)">{</span> <span style="color: rgb(16,121,2)">&quot;username&quot;</span> <span style="color: rgb(83,85,2)">:</span> <span style="color: rgb(16,121,2)">&quot;testuser3&quot;</span><span style="color: rgb(83,85,2)">,</span> <span style="color: rgb(16,121,2)">&quot;email&quot;</span> <span style="color: rgb(83,85,2)">:</span> <span style="color: rgb(16,121,2)">&quot;testuser3@testdomain.com&quot;</span> <span style="color: rgb(83,85,2)">}]</span>
+db<span style="color: rgb(83,85,2)">.</span>usercollection<span style="color: rgb(83,85,2)">.</span>insert<span style="color: rgb(83,85,2)">(</span>newstuff<span style="color: rgb(83,85,2)">);</span></code></pre></div>
+												<div class="clarify-step-image-wrapper">
+							<div class="clarify-step-image-container">
+								<img src="./images/docs/nodejs---mongodb-crud/step-11-create-data.png" width="594" height="342" class="clarify-step-image" alt="" />
+								
+							</div>
+						</div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-12" class="clarify-step-container">						<h2 class="clarify-step-title">Step 12. hook mongo up to node</h2>						<div class="clarify-step-instructions"><p>open <span style="color: rgb(187,0,0)"><code>app.js</code></span> </p>
+<p>modify code like this:</p>
+<pre><code>var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+
+// mondo
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/nodecrud');
+...</code></pre></div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-13" class="clarify-step-container">						<h2 class="clarify-step-title">Step 13. connect db</h2>						<div class="clarify-step-instructions"><pre><code>app.use(function(req,res,next) {
+ &nbsp; &nbsp;req.db = db;
+ &nbsp; &nbsp;next();
+});</code></pre></div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-14" class="clarify-step-container">						<h2 class="clarify-step-title">Step 14. pull user data from mongo and display it</h2>						<div class="clarify-step-instructions"><p>open <span style="color: rgb(187,0,0)"><code>router/index.js</code></span>, add this code:</p>
+<pre><code>router.get('/userlist', function(req, res) {
+ &nbsp;var db = req.db;
+ &nbsp;var collection = db.get('usercollection');
+ &nbsp;collection.find({}, {}, function (e, docs) {
+ &nbsp; &nbsp;res.render('userlist', {
+ &nbsp; &nbsp; &nbsp;'userlist': docs
+ &nbsp; &nbsp;});
+ &nbsp;});
+});</code></pre></div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-15" class="clarify-step-container">						<h2 class="clarify-step-title">Step 15. add userlist.jade</h2>						<div class="clarify-step-instructions"><pre><code>extend layout
+block content
+ &nbsp;h1.
+ &nbsp; &nbsp;User list
+ &nbsp;ul
+ &nbsp; &nbsp;each user, i in userlist
+ &nbsp; &nbsp; &nbsp;li
+ &nbsp; &nbsp; &nbsp; &nbsp;a(href=&quot;mailto:#{user.email}&quot;)= user.username</code></pre>
+<p>open <span style="color: rgb(187,0,0)"><code>http://localhost:3000/userlist</code></span></p></div>
+												<div class="clarify-step-image-wrapper">
+							<div class="clarify-step-image-container">
+								<img src="./images/docs/nodejs---mongodb-crud/step-15-add-userlistjade.png" width="706" height="282" class="clarify-step-image" alt="" />
+								
+							</div>
+						</div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-16" class="clarify-step-container">						<h2 class="clarify-step-title">Step 16. create user</h2>						<div class="clarify-step-instructions"><p>edit <span style="color: rgb(187,0,0)"><code>router/index.js</code></span> </p>
+<pre><code>// create user
+router.get('/newuser', function(req, res) {
+ &nbsp; &nbsp;res.render('newuser', { title: 'Add New User' });
+});</code></pre></div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-17" class="clarify-step-container">						<h2 class="clarify-step-title">Step 17. add newuser.jade</h2>						<div class="clarify-step-instructions"><pre><code>extends layout
+block content
+ &nbsp;h1= title
+ &nbsp;form#formAddUser(name=&quot;adduser&quot;, method=&quot;post&quot;, action=&quot;/adduser&quot;)
+ &nbsp; &nbsp; &nbsp;input#inputUserName(type=&quot;text&quot;, placeholder=&quot;username&quot;, name=&quot;username&quot;)
+ &nbsp; &nbsp; &nbsp;input#inputUserEmail(type=&quot;text&quot;, placeholder=&quot;useremail&quot;, name=&quot;useremail&quot;)
+ &nbsp; &nbsp; &nbsp;button#btnSubmit(type=&quot;submit&quot;) submit</code></pre></div>					</div>					<div class="clarify-clear"></div>		<div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>					<div id="clarify-step-18" class="clarify-step-container">						<h2 class="clarify-step-title">Step 18. add post adduser</h2>						<div class="clarify-step-instructions"><p>edit <span style="color: rgb(187,0,0)"><code>router/index.js</code></span> </p>
+<pre><code>/* POST to Add User Service */
+router.post('/adduser', function(req, res) {
+ &nbsp; &nbsp;// Set our internal DB variable
+ &nbsp; &nbsp;var db = req.db;
+ &nbsp; &nbsp;// Get our form values. These rely on the &quot;name&quot; attributes
+ &nbsp; &nbsp;var userName = req.body.username;
+ &nbsp; &nbsp;var userEmail = req.body.useremail;
+ &nbsp; &nbsp;// Set our collection
+ &nbsp; &nbsp;var collection = db.get('usercollection');
+ &nbsp; &nbsp;// Submit to the DB
+ &nbsp; &nbsp;collection.insert({
+ &nbsp; &nbsp; &nbsp; &nbsp;&quot;username&quot; : userName,
+ &nbsp; &nbsp; &nbsp; &nbsp;&quot;email&quot; : userEmail
+ &nbsp; &nbsp;}, function (err, doc) {
+ &nbsp; &nbsp; &nbsp; &nbsp;if (err) {
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// If it failed, return error
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;res.send(&quot;There was a problem adding the information to the database.&quot;);
+ &nbsp; &nbsp; &nbsp; &nbsp;}
+ &nbsp; &nbsp; &nbsp; &nbsp;else {
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// If it worked, set the header so the address bar doesn't still say /adduser
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;res.location(&quot;userlist&quot;);
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// And forward to success page
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;res.redirect(&quot;userlist&quot;);
+ &nbsp; &nbsp; &nbsp; &nbsp;}
+ &nbsp; &nbsp;});
+});</code></pre></div>					</div>					<div class="clarify-clear"></div>      </div>    </div>
+    <div class="rule">
+			<img src="images/ui/rule.png" alt="" /> 
+		</div>
+    <div class="footer">
+      <p></p>
+    </div>
+  </div>
+</body>
+</html>
